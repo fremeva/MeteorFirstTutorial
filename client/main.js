@@ -1,22 +1,38 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from "meteor/templating";
+import "./main.html";
+import { Notes } from "../lib/collections";
 
-import './main.html';
-
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
+Template.body.helpers({
+  notes() {
+    return Notes.find();
+  }
 });
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
+Template.add.events({
+  "submit .add-form": function() {
+    event.preventDefault();
+    // Get input value
+    const text = event.target.text.value;
+
+    //Insert note into collection
+    Notes.insert({
+      text, //text: text (Is the Same),
+      createdAt: new Date()
+    });
+
+    // Clear input text
+    event.target.text.value = "";
+
+    //close  Modal
+    $("#addModal").modal("close");
+    return false;
+  }
 });
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
+Template.note.events({
+  "click .delete-note": function() {
+    console.log(this);
+    event.preventDefault();
+    Notes.remove(this._id);
+  }
 });

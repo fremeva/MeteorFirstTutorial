@@ -1,25 +1,56 @@
 <head>
   <title>notemanager</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <nav class="blue">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">NoteManager</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li class="nav-item">
+            <a href="#addModal" class="waves-effect waves--light btn modal-trigger">Add Note</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h1>Latest Notes</h1>
+    <ul class="collection">
+      {{#each notes}}
+        {{ >note}}
+      {{/each}}
+    </ul>
+  </div>
+  {{>add}}
 
-  {{> hello}}
-  {{> info}}
+  <!-- Jquery pre-installed -->
+  <script>
+    $(document).ready(function () {
+      $('.modal').modal();
+    });
+  </script>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<!-- Created First Template -->
+<template name="note">
+  <li class="collection-item">
+    {{text}}
+    <a href="#" class="delete-note secondary-content"><i class="material-icons">close</i></a>
+  </li>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
+<template name="add">
+  <!-- Modal Structure -->
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h4>Add Note</h4>
+      <form action="" class="add-form">
+        <input type="text" name="text" placeholder="Add note...">
+      </form>
+    </div>
+  </div>
 </template>
