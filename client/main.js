@@ -1,6 +1,7 @@
 import { Template } from "meteor/templating";
 import "./main.html";
 import { Notes } from "../lib/collections";
+import { Meteor } from "meteor/meteor";
 
 // Authentications
 import { Accounts } from "meteor/accounts-base";
@@ -21,14 +22,15 @@ Template.add.events({
     // Get input value
     const text = event.target.text.value;
 
-    //Insert note into collection
+    /* //Insert note into collection
     Notes.insert({
       text, //text: text (Is the Same),
       createdAt: new Date(),
       // Owner
       owner: Meteor.userId(),
       username: Meteor.user().username
-    });
+    }); */
+    Meteor.call("notes.insert", text);
 
     // Clear input text
     event.target.text.value = "";
@@ -41,8 +43,10 @@ Template.add.events({
 
 Template.note.events({
   "click .delete-note": function() {
-    console.log(this);
+    /* console.log(this);
     event.preventDefault();
-    Notes.remove(this._id);
+    Notes.remove(this._id); */
+    Meteor.call("notes.remove", this);
+    return false;
   }
 });
