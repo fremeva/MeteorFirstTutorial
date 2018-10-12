@@ -2,6 +2,13 @@ import { Template } from "meteor/templating";
 import "./main.html";
 import { Notes } from "../lib/collections";
 
+// Authentications
+import { Accounts } from "meteor/accounts-base";
+//Account Config (Configuratipon to Login and Sing-up with Username and not Email way)
+Accounts.ui.config({
+  passwordSignupFields: "USERNAME_ONLY"
+});
+
 Template.body.helpers({
   notes() {
     return Notes.find();
@@ -17,7 +24,10 @@ Template.add.events({
     //Insert note into collection
     Notes.insert({
       text, //text: text (Is the Same),
-      createdAt: new Date()
+      createdAt: new Date(),
+      // Owner
+      owner: Meteor.userId(),
+      username: Meteor.user().username
     });
 
     // Clear input text

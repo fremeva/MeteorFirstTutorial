@@ -1,7 +1,6 @@
 <head>
   <title>notemanager</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -10,8 +9,13 @@
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">NoteManager</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {{#if currentUser}}
           <li class="nav-item">
             <a href="#addModal" class="waves-effect waves--light btn modal-trigger">Add Note</a>
+          </li>
+          {{/if}}
+          <li class="nav-item">
+            {{> loginButtons}}
           </li>
         </ul>
       </div>
@@ -19,11 +23,15 @@
   </nav>
   <div class="container">
     <h1>Latest Notes</h1>
+    {{#if currentUser}}
     <ul class="collection">
       {{#each notes}}
-        {{ >note}}
+      {{ >note}}
       {{/each}}
     </ul>
+    {{else}}
+    <p>Please Log in to manage notes</p>
+    {{/if}}
   </div>
   {{>add}}
 
@@ -38,7 +46,7 @@
 <!-- Created First Template -->
 <template name="note">
   <li class="collection-item">
-    {{text}}
+    {{text}} <strong>Added by {{username}}</strong>
     <a href="#" class="delete-note secondary-content"><i class="material-icons">close</i></a>
   </li>
 </template>
